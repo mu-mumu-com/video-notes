@@ -29,8 +29,9 @@
 ## 現在地
 2026-08-07時点: フェーズ1着手前。momemoのService/Tools内容と料金は確定済み（ECサイト・会員機能は対応外）。
 
-## 派生タスク（LINE連携）
-- 外出先からアイデア・タスク更新をLINEでりかちゃんに送り、「進捗どう?」等の質問にも答えてもらえる仕組みを検討中
-- 方式: LINE Webhook(Cloudflare Workers) → `_secretary/`配下の状況ファイル(本ファイル・projects.md・週次レポート・inbox.md)をGitHub API経由で取得 → Claude API(Sonnet)に1回問い合わせて回答 or 新規メモは`inbox.md`に追記
+## 派生タスク（LINE連携）— 実装完了(2026-08-07)
+- `~/開発/agent/rika-line-bot`（Cloudflare Workers）としてHomupeが実装・デプロイ済み。URL: `https://rika-line-bot.9nago-nago9.workers.dev`
+- 方式: LINE Webhook → `_secretary/`配下の状況ファイル(本ファイル・projects.md・週次レポート・inbox.md)をGitHub API経由で取得 → Claude API(Sonnet)に1回問い合わせて回答 → 質問・回答とも`inbox.md`に記録（次回セッションで正確化・対応する前提）
+- 署名付きテストリクエストで動作確認済み（GitHub読み書き・Claude API呼び出し含め正常）
+- 残タスク: LINE Developersコンソールで実際のWebhook URL設定・有効化はユーザー側の作業（ログイン必要なため）
 - 現在はHomupe(副業開発)まわりのタスク管理が対象。将来的には一般的なタスク管理・スケジュール管理（Googleカレンダー連携も視野）まで拡張したい、との要望あり
-- まだ未着手。着手時はHomupeに実装を依頼する
