@@ -1522,3 +1522,32 @@ Co-Authored-By: Claude Sonnet 5 <noreply@anthropic.com>" && git fetch origin && 
 - `AGENDA_PATH` — Task 5 定義、Task 7 使用。
 
 修正: Task 9 Step 5 のコード内 `import { upsertAgendaReminders } from "./ingest";` はコメントで「予定:行は末尾追記でよい」としつつ未使用。実装時は import しない。
+
+---
+
+## 実行ログ
+
+### 2026-09-09（夜間・無人実行）— Task 0〜9 完了
+
+**ブランチ**: `mu-mumu-com/agent` の `rika-daily-manager`（push 済み、7コミット）。main は未マージ。
+
+- **Task 0** ✅ 保留していた未コミット差分を回収してコミット（`homupe/CLAUDE.md` のスキル一覧、`secretary/CLAUDE.md` のプロンプト技法追記＝[[procrastination-via-reassurance-seeking]]対応が2週間分未コミットだった）。video-notes 側の spec/plan push は auto ガードで保留。
+- **Task 1** ✅ テンプレート作成: `~/SW/work-duties.md`（ローカル）、`_secretary/agenda.md` `_secretary/kpi.md` `_secretary/daily/_TEMPLATE.md`（video-notes）。work-duties は改訂どおり ~/SW ローカルのみ。
+- **Task 2** ✅ `profile.md` に「セルフマネジメントの傾向」節を追加。
+- **Task 3** ✅ vitest 導入、`src/datetime.ts`（JST日付・曜日・週末判定）。既存の重複 `nowJst`/`todayJst` を集約。
+- **Task 4** ✅ `src/daily.ts`（`extractSection` `buildMorningPush` `buildMiddayPush` `buildEveningPush` `parseDoneReply` `applyDoneMarks`）。本業ブロックなし版。
+- **Task 5** ✅ `src/ingest.ts`（`parseIngestBody` `upsertAgendaReminders` `appendAgendaLine`）。
+- **Task 6** ✅ `src/github.ts` に `updateFileText`（read-modify-write、409で1回リトライ）。
+- **Task 7** ✅ `src/ingest-route.ts` の `POST /ingest`、`types.ts` に `INGEST_SECRET`、`index.ts` にマウント。`.dev.vars` にダミー値追加。
+- **Task 8** ✅ `scheduled.ts` を朝07:20/昼13:00/夜21:50 JST + 既存の週次金 の4本 switch に。`runMonthlyCheckin`/`askRikaCheckin`/`0 9 1 * *` を削除。`wrangler.toml` の crons 差し替え。
+- **Task 9** ✅ `claude.ts` の `askRika` を stable(人格+マスター、キャッシュ)/volatile(daily/agenda/kpi/週次) に分離。`webhook.ts` に profile/daily/agenda/kpi を追加（work-duties は入れない）。「1,3できた」→ 宣言チェック更新、「予定: …」→ agenda 追記。
+
+**検証**: `npm test` 43 pass（7ファイル）、`npm run typecheck` クリーン。**本番には一切触れていない**（デプロイ・ルーティン作成・LINE送信なし）。
+
+### 残タスク（ユーザー同席が必要）
+
+- **Task 10**: `INGEST_SECRET` 生成 → `wrangler secret put` → `npm run deploy`（`CLOUDFLARE_API_TOKEN` かユーザーの `! npx wrangler login` が必要）。`/ingest` 本番疎通。
+- **Task 11**: 朝・夜クラウドルーティンを `RemoteTrigger` で作成（本業ブロックなし版のプロンプト＝plan改訂を参照）。`enabled:false` で試走 → daily 生成物を目視 → 有効化。
+- **Task 12**: `SHORTCUT.md` を書く → ユーザーが iPhone で作成（本業リスト除外）。
+- **Task 13**: 本業の中身を受け取り `~/SW/work-duties.md` を仕上げ → `agent/secretary/CLAUDE.md` にローカル時の本業ブリーフィング（work-duties + iPhoneリマインダー全リスト、カレンダーなし）を明記 → memory 更新。
+- ブランチ `rika-daily-manager` を main にマージ。
