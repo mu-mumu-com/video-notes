@@ -71,30 +71,74 @@
 
 ---
 
-## りかちゃん日次マネージャー化（2026-09-09〜、進行中）
+## りかちゃん日次マネージャー化（2026-09-09〜11、**稼働中**）
 
-設計書: `_secretary/specs/2026-09-09-rika-daily-manager-design.md`（「2026-09-09 改訂」節が最新）
-実装計画＋実行ログ: `_secretary/plans/2026-09-09-rika-daily-manager-plan.md`（末尾「実行ログ」に完了状況）
+設計書: `_secretary/specs/2026-09-09-rika-daily-manager-design.md`
+実装計画: `_secretary/plans/2026-09-09-rika-daily-manager-plan.md`
 
-### 要件（確定）
-- 朝7:00/夜21:30 にクラウドルーティンが `_secretary/daily/<日付>.md` 生成、rika-line-bot が 7:20/13:00/21:50 にLINEへ（文字抽出のみ＝0円）。対話返信だけ Claude API。
-- **クラウド（LINE朝昼夜）は副業＋プライベートだけ**。本業は `~/SW/work-duties.md`（ローカル）＋iPhoneリマインダーの本業用リスト。Googleカレンダーは接続不可で不使用。
-- 本業のリマインド・消化確認は**ローカルでりかちゃんを呼んだ時だけ**。
-- 既存の月次チェックイン（`0 9 1 * *`＋`runMonthlyCheckin`）は廃止。
-- 本業は月〜金、副業/プライベートは毎日。土日は本業ブロック省略。トーンは「決めてあげる＋励ます」。
+### 稼働スケジュール（2026-09-11〜）
+| 時刻(JST) | 何が動く | 内容 |
+|---|---|---|
+| 7:00 | クラウドルーティン `trig_013MELCp3GJXxny3MvqY97LT` | `_secretary/daily/<今日>.md` を生成 |
+| 7:20 | rika-line-bot cron | 朝のLINEリレー（文字抽出・0円） |
+| 13:00 | rika-line-bot cron | 昼pingをLINEへ |
+| 21:30 | クラウドルーティン `trig_01LmsMn5pLtidTUDnwUg1scr` | daily に夜セクションを追記 |
+| 21:50 | rika-line-bot cron | 夜のLINEリレー（文字抽出・0円） |
+| 毎週金 7:20 | rika-line-bot cron | 週次レポートLINE通知（既存） |
 
-### 完了（2026-09-09 夜、無人実行）— Task 0〜9
-- bot コード: `mu-mumu-com/agent` の**ブランチ `rika-daily-manager`**（push済み・7コミット・main未マージ）。`npm test` 43 pass、typecheck クリーン。**本番未反映**。
-  - 新規: `src/datetime.ts` `daily.ts` `ingest.ts` `ingest-route.ts` ＋各テスト。`github.ts` に `updateFileText`。`scheduled.ts` 全面改稿。`claude.ts` の `askRika` を stable/volatile 分離・`askRikaCheckin` 削除。`wrangler.toml` crons 差し替え。`types.ts` に `INGEST_SECRET`。
-- video-notes: `_secretary/agenda.md` `kpi.md` `daily/_TEMPLATE.md`、`profile.md`に「セルフマネジメントの傾向」節、spec/plan。push済み。
-- `~/SW/work-duties.md`: 本業の担当業務を記入済み（2026-09-10、ユーザーヒアリング）。都度項目・ニュース担当は未整理、経費入力の時期は要確認。
+### 完了（2026-09-11）— Task 0〜13 すべて
+- **Task 0〜9**: bot コード（datetime/daily/ingest/github/webhook/scheduled/claude.ts）・テスト43件パス・ブランチ push
+- **Task 10**: INGEST_SECRET 登録・デプロイ。`/ingest` 本番疎通確認済み（`{"ok":true}`）。cron 4本有効
+- **Task 11**: クラウドルーティン（朝/夜）作成・有効化。2026-09-11 朝の手動実行で目視確認済み
+- **Task 12**: `SHORTCUT.md` コミット済み。INGEST_SECRET は `.dev.vars` / Cloudflare Secrets 画面で確認可
+- **Task 13**: `agent/secretary/CLAUDE.md` に「ローカル呼び出し時の日次ブリーフィング」節を追加・push済み
 
-### 残タスク（ユーザー同席が必要）— Task 10〜13
-1. **Task 10 デプロイ**: `INGEST_SECRET` 生成 → `wrangler secret put` → `npm run deploy`（`CLOUDFLARE_API_TOKEN` かユーザーの `! npx wrangler login`）。`/ingest` 本番疎通。
-2. **Task 11 クラウドルーティン作成**: 朝(`0 22 * * *`)・夜(`30 12 * * *`)を `RemoteTrigger` で。既存 `env_018JLnu98AphHR6nuD8Md58N` 流用。プロンプトは plan 参照（本業ブロックなし版）。`enabled:false`→試走→目視→有効化。
-3. **Task 12 iPhoneショートカット**: `agent/rika-line-bot/SHORTCUT.md` を書く → ユーザーが作成（本業リスト除外）。
-4. **Task 13 ローカルりかちゃん**: `agent/secretary/CLAUDE.md` にローカル時の本業ブリーフィング（`~/SW/work-duties.md`＋iPhoneリマインダー全リスト、カレンダーなし）を明記 → memory 更新。ニュース担当・経費入力の時期を詰める。
-5. ブランチ `rika-daily-manager` を main にマージ。
+### 残り: mainマージ（ユーザーの明示確認が必要）
+- ブランチ `rika-daily-manager` → main へのマージのみ残り
+- 「マージして」と言えば即実行
+
+### iPhoneショートカット（ユーザーが作成）
+手順: `agent/rika-line-bot/SHORTCUT.md` を参照。INGEST_SECRET は `.dev.vars` に記載。
+
+---
+
+## ココナラ出品（2026-09-09〜10）
+
+メモリ: `coconala-listing-images.md`（詳細な履歴つき）
+素材フォルダ: `_secretary/coconala_assets/`（正本）／納品: `~/Downloads/ココナラ出品画像/`
+
+### カバー画像 — 方向E（unshift.jp風）で確定
+- 経緯: v1〜v6（暗い明朝・金アクセント等）まで作るも「AIっぽい／物足りない」。参考出しに切替 → ユーザーが **unshift.jp** を「シンプルにかっこいい」と選定
+- unshift実態: 完全モノクローム(#F6F5F1/#0D0D0D)、Futura＋Noto Sans JP、余白極大、装飾ゼロ
+- 方向E: `coconala_assets/cover_typo.html`（=E）。温かい白地／Jost(Futura代替)／Noto Sans JP 500 + `palt`／右下に静かなサービス表記／装飾なし。3x書き出し済み。旧版は `cover_typo_v3.html` `cover_typo_v6.html` に退避
+- 出力: `~/Downloads/ココナラ出品画像/カバー画像.png`(1280×420) / `カバー画像@3x.png`
+
+### 出品作業 — LP制作を入力中（2026-09-09深夜）
+- 実画面で判明した仕様を手順書に反映。正本: **`_secretary/coconala_assets/投稿手順.txt`**
+  （※`~/Downloads/ココナラ出品画像/` はセッション中に書込不可(EPERM)化。cp/ls/rm 全滅。次回要同期）
+- タイトル欄は2つ: サービスタイトル(25字・末尾「ます」固定) / キャッチコピー(15〜30字)。3件ぶん作成済み（手順書STEP1〜3）
+- LP属性欄の選択を確定: 手法=その他(コード制作)、スタイル=フラット・ミニマル、用途=プロモーション/店舗・事務所/コーポレート、修正2回、ラフ1、お届け14日、受注2件
+- 「購入にあたってのお願い」文面を3件ぶん作成（手順書に収録）
+- headless Chrome運用メモ: `timeout`コマンド無し。`--headless=new`はハングするのでバックグラウンド起動→PNG出現をpoll→`kill -9`。環境変数は`&`の前で設定。`sips -z 420 1280`で縮小
+
+### 残タスク
+1. **（ユーザー）LP制作の続き**: 価格15,000 → 画像(1_LP制作の1_〜5_) → タグ5個 → 公開
+2. **（ユーザー）STEP2 ホームページ制作・STEP3 社内ツール開発** を手順書どおり出品
+   - ツール(GAS)カテゴリは属性項目が違う → 画面スクショで都度ガイド
+3. **（ユーザー）STEP4 銀行口座登録**（設定＞売上管理＞振込申請）
+4. コピペ帳Artifact( 1ededede-7531-40d9-84de-0cb29e8de9c7 )の「サービス名」をタイトル/キャッチ分割に更新（未対応）
+5. Downloads書込が戻ったら `投稿手順.txt` を同期、`投稿手順_v2.txt` 残存を確認・削除
+6. プロフィール残り欄（稼働状況／スキル・ツール言語／ポートフォリオ）
 
 ### 再開の合図
-「**りかちゃん日次マネージャーの続き**」→ plan の「実行ログ」を読んで Task 10 から。
+「**ココナラ出品の続き**」→ このセクションと `投稿手順.txt`（coconala_assets）から。当日は画面スクショを見て逐次ガイド。
+
+---
+
+## りかちゃんLINE inbox確認（2026-09-11）
+
+`_secretary/inbox.md`を読み返し。2026/08/07〜08/08のやり取り（当時は自動通知が未実装だった件、その後Cron Triggersで解消済み）に続き、直近は**2026/09/01 18:00の月次チェックイン（自動送信）**が最後で、そこで2点を確認依頼していた:
+1. ココナラ出品の進捗 → 上記「ココナラ出品」セクションの残タスクへ引き継ぎ済み（出品自体は未公開のまま）
+2. tedako-navi.netのDNS切れ → `dig NS tedako-navi.net`で再確認、**依然としてNSレコードなし＝未解決**。[[okinawa-navi-purpose]]の「ユーザーがレジストラでネームサーバー設定」が引き続き残タスク
+
+9/1以降LINEで新規のやり取りは無し。日次マネージャー化（Task 10〜13、上記セクション参照）が完了すればこの月次チェックインは廃止され朝夜ブリーフィングに置き換わる。
