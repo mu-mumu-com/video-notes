@@ -28,10 +28,17 @@
 
 ### momemo
 - repo: https://github.com/mu-mumu-com/momemo
-- 本番URL: https://momemo-nine.vercel.app
+- 本番URL: https://momemo-web.netlify.app （2026-08にVercelから移行済み。旧URL momemo-nine.vercel.app は記載ミス→訂正）
 - 目的: ココナラでの受注＋Instagram集客の導線となるポートフォリオサイト。Instagramプロフィールに貼る前提
 - 状態: サービス開始前の準備段階
 - チェック観点: 公開に足る完成度か、何が足りないか、ig-auto-replyとの導線が繋がる想定になっているか
+
+### 3d-mindmap（思考マップツール）
+- repo: (要確認。ローカル: ~/開発/3d-mindmap)
+- 本番URL: https://3d-mindmap-1787466618.netlify.app
+- 目的: フレームワークを選んで入力すると図が完成し、AIがアドバイスを出す思考整理ツール。Threadsで運用中の持論・仮説アカウントの反応を見て一般公開→AI搭載有料版へ育てる計画（2026-09-14メモ、下記フェーズ4参照）
+- 状態: 機能実装済み（フレームワーク15種、AI補助はGemini Flash）。design-checkスコア50→62まで改善済み・一般公開はまだ
+- チェック観点: Threadsアカウントの反応・フォロワー推移、公開タイミングの判断材料が揃っているか
 
 ### サンプルサイト（shiro-clinic / kuruma-ya）
 - repo: https://github.com/mu-mumu-com/K-sannpuru（mainブランチ=shiro-clinic、worktree-kuruma-ya-3d-portfolioブランチ=kuruma-ya）
