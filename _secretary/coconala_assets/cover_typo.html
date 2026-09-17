@@ -1,0 +1,45 @@
+<!doctype html><html lang="ja"><head><meta charset="utf-8">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  html,body{width:1280px;height:420px;overflow:hidden;background:#F6F5F1}
+  .stage{
+    position:relative;width:1280px;height:420px;overflow:hidden;
+    background:#F6F5F1;color:#141310;
+    font-family:"Noto Sans JP",sans-serif;font-feature-settings:"palt" 1;
+  }
+  /* 紙の質感：上からのごく淡い光のみ。装飾は置かない */
+  .stage::before{content:"";position:absolute;inset:0;
+    background:linear-gradient(184deg,rgba(255,255,255,.6),transparent 42%)}
+
+  .wm{
+    position:absolute;left:64px;top:42px;
+    font-family:"Jost",sans-serif;font-weight:400;font-size:18px;
+    letter-spacing:.03em;color:#141310;
+  }
+  .wm b{font-weight:500}
+  .wm span{color:#9C988D;margin-left:.5em}
+
+  .hl{
+    position:absolute;left:64px;top:50%;transform:translateY(-50%);
+    font-weight:500;font-size:45px;line-height:1.6;letter-spacing:.012em;color:#141310;
+  }
+
+  /* 右下：unshift の下メニューをミラーした静かな情報。1色・小さく */
+  .meta{
+    position:absolute;right:56px;bottom:42px;text-align:right;
+    font-family:"Jost",sans-serif;font-weight:400;font-size:15px;
+    line-height:1.9;letter-spacing:.04em;color:#4B473E;
+  }
+  .meta .jp{font-family:"Noto Sans JP",sans-serif;font-size:12.5px;color:#8A867B;letter-spacing:.06em}
+</style></head><body>
+<div class="stage">
+  <p class="wm"><b>momemo</b><span>studio</span></p>
+  <h1 class="hl">伝わるホームページを、<br>丁寧につくります。</h1>
+  <p class="meta">
+    Homepage / Landing Page<br>
+    GAS Automation<br>
+    <span class="jp">デザインから公開まで、ひとりで担当します</span>
+  </p>
+</div></body></html>

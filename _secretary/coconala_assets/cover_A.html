@@ -1,0 +1,83 @@
+<!doctype html><html><head><meta charset="utf-8">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;1,9..144,400&family=Shippori+Mincho:wght@400;500&family=Space+Grotesk:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  html,body{width:2560px;height:840px;overflow:hidden;background:#0c0b0d}
+  .scale{transform:scale(2);transform-origin:top left}
+  .stage{
+    position:relative;width:1280px;height:420px;
+    background:#0c0b0d;
+    color:#f4f2ee;
+    font-family:"Shippori Mincho",serif;
+  }
+  /* 背景: 低彩度の多層グラデ + ヴィネット */
+  .stage::before{
+    content:"";position:absolute;inset:0;
+    background:
+      radial-gradient(1100px 520px at 82% 12%, rgba(120,150,210,.10), transparent 60%),
+      radial-gradient(900px 600px at 18% 108%, rgba(196,150,96,.08), transparent 55%),
+      radial-gradient(1400px 900px at 50% 50%, rgba(255,255,255,.025), transparent 70%),
+      linear-gradient(180deg,#100e11,#0a090b);
+  }
+  /* グレイン */
+  .stage::after{
+    content:"";position:absolute;inset:0;opacity:.05;mix-blend-mode:soft-light;z-index:4;
+    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+  }
+  /* 右: 制作物を静かな証拠として置く */
+  .proof{
+    position:absolute;right:-96px;top:50%;
+    width:620px;height:392px;z-index:1;
+    transform:translateY(-50%) rotate(-5deg);
+    border:1px solid rgba(255,255,255,.07);
+    border-radius:4px;overflow:hidden;
+    box-shadow:0 30px 70px rgba(0,0,0,.5), 0 0 64px rgba(74,214,200,.09);
+    -webkit-mask-image:linear-gradient(100deg, transparent 0%, rgba(0,0,0,.30) 30%, #000 66%);
+            mask-image:linear-gradient(100deg, transparent 0%, rgba(0,0,0,.30) 30%, #000 66%);
+  }
+  .proof img{width:100%;height:100%;object-fit:cover;
+    filter:brightness(.52) saturate(.78) contrast(1.02) blur(.6px);opacity:.9}
+  .frame{position:absolute;inset:16px;border:1px solid rgba(255,255,255,.06);pointer-events:none;z-index:3}
+  .content{
+    position:absolute;left:76px;top:50%;transform:translateY(-50%);
+    z-index:3;max-width:700px;
+  }
+  .eyebrow{
+    font-family:"Space Grotesk",sans-serif;
+    font-size:12px;letter-spacing:.32em;text-transform:uppercase;
+    color:rgba(244,242,238,.5);
+    display:flex;align-items:center;gap:12px;
+  }
+  .eyebrow::before{content:"";width:22px;height:1px;background:rgba(216,185,138,.9)}
+  .wordmark{
+    font-family:"Fraunces",serif;
+    font-weight:400;font-size:76px;line-height:1.02;letter-spacing:-.014em;
+    margin:20px 0 0;color:#f6f4ef;
+  }
+  .wordmark i{
+    font-style:italic;font-weight:400;font-size:52px;
+    color:#d8b98a;margin-left:.16em;letter-spacing:0;
+  }
+  .rule{width:54px;height:1px;background:rgba(216,185,138,.85);margin:26px 0 20px}
+  .tagline{
+    font-family:"Shippori Mincho",serif;font-weight:400;
+    font-size:19px;line-height:1.85;color:rgba(244,242,238,.76);
+    letter-spacing:.04em;
+  }
+</style></head>
+<body>
+<div class="scale">
+  <div class="stage">
+    <div class="proof"><img src="demo3d_pc.png" alt=""></div>
+    <div class="frame"></div>
+    <div class="content">
+      <div class="eyebrow">Web Design Studio</div>
+      <h1 class="wordmark">momemo<i>studio</i></h1>
+      <div class="rule"></div>
+      <p class="tagline">ホームページ・LP制作 ／ GASによる業務自動化ツール開発</p>
+    </div>
+  </div>
+</div>
+</body></html>
