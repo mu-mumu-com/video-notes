@@ -274,3 +274,7 @@
 - 編集画面URL: `https://coconala.com/mypage/services/4406507`（一覧は`/mypage/services_lists`）。欄ID: ServiceOverview / ServiceCatchphrase / ServiceHead（購入前メッセージのServiceBodyは触っていない）
 - 残り：出品画像のキャッチ文字が旧文面「バーコード管理から記録作成まで」のまま。新方針（自動送信/自動蓄積/自動生成）に合わせて作り直すか検討
 - Playwright MCPのブラウザは別セッション(3a)が保持し続けると使えない。その場合は別Chromeを `--remote-debugging-port` 付きで起動し playwright-core の connectOverCDP で操作する
+
+### 追記（2026-10-03）：毎日21:00の応募報告うながしを復活
+- ユーザー希望で rika-line-bot に cron `0 12 * * *`（21:00 JST）を追加・本番デプロイ（版 da918cd5、テスト76件通過）。固定文「今日の数を送ってね（応募 3 等／ゼロは応募 0）」。他の通知は止めたまま
+- KPI運用：応募は「数より質」。週1（金曜 10/9）に1週間分を見てKPIの置き換え案（週5〜10件＋毎日15分の探索）を決める
