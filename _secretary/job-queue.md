@@ -11,3 +11,4 @@ LINEで送った案件のURLがここにたまる。Claude Codeで「案件を�
 - [ ] 2026-10-06 https://crowdworks.jp/public/jobs/13482328
 - [ ] 2026-10-06 https://crowdworks.jp/public/jobs/13493973
 - [ ] 2026-10-06 https://crowdworks.jp/public/jobs/13490989
+- [ ] 2026-10-06 https://crowdworks.jp/public/jobs/13490555
