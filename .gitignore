@@ -2,3 +2,5 @@ _bin/venv/
 __pycache__/
 *.pyc
 .DS_Store
+_bin/skillspector-venv/
+_bin/downloads/
