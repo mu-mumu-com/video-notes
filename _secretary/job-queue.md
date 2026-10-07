@@ -13,3 +13,4 @@ LINEで送った案件のURLがここにたまる。Claude Codeで「案件を�
 - [x] 2026-10-06 https://crowdworks.jp/public/jobs/13490989（判定: 見送り（画面操作自動化・責任重い））
 - [x] 2026-10-06 https://crowdworks.jp/public/jobs/13490555（判定: 見送り寄り（GAS可だが評価0件・85名応募・14社分離が重い））
 - [ ] 2026-10-07 https://crowdworks.jp/public/jobs/13511517
+- [ ] 2026-10-07 https://crowdworks.jp/public/jobs/13482331
